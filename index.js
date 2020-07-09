@@ -2,45 +2,64 @@
 const AWS = require('aws-sdk');
 AWS.config.update({region: "us-east-1"});
 
-const {
-      graphql,
-      GraphQLSchema,
-      GraphQLObjectType,
-      GraphQLString,
-      GraphQLNonNull
-    } = require('graphql');
+const { ApolloServer } = require('apollo-server');
+const typeDefs = require('./src/schema');
+//const { NewsletterUser } =  require('./src/datasources/newsletteruser');
+const resolvers = require('./src/resolvers');
 
-exports.handler = async (event, context) => {
-    const bmdb = new AWS.DynamoDB({ apiVersion:  '2012-08-10'});
-    const documentClient = new AWS.DynamoDB.DocumentClient({region: "us-east-1"});
-    
-    let responseBody = "";
-    let statusCode = 0;
 
-    const params = {
-        TableName: "BadMagic_ShopItem",
-        Limit:3
+const server = new ApolloServer({ typeDefs,resolvers, 
+});
+
+//const bmdb = new AWS.DynamoDB({ apiVersion:  '2012-08-10'});
+//const documentClient = new AWS.DynamoDB.DocumentClient({region: "us-east-1"});
+/*
+var schema = buildSchema(`
+    type NewsletterUser{
+        firstname: String!
+        lastname: String!
+        emailAddress: String!
     }
-    try{
-        const data = await documentClient.scan(params).promise();
+    type Query{
+        newsletterUsers: [NewsletterUser!]!
+        newsletterUser(emailAddress: String!): String!
+    }
+`);
+
+var root = {
+
+    newsletterUsers: () => { 
+        return '[raymondtimothyharris@badmagic.com2]';
+    },
+    newsletterUser:  async ({ emailAddress }) => { 
+        
+        console.log(emailAddress);
+        const params = {
+            TableName: "BadMagic_NewsletterUsers",
+            Key: {
+                Email : emailAddress
+            }
+        }
+        const data = await documentClient.get(params).promise();
         console.log(data);
-        responseBody = JSON.stringify(data.Items);
-        statusCode = 200;
-    }   catch (err){
-        console.log(err)
-        responseBody = `Unable to get Items`
-        statusCode = 403
+        return "Testing things"
     }
+};
+*/
+//exports.handler = server.createHandler();
 
-    const response = {
-        statusCode:statusCode,
-        headers:{
-            "myHeader": "test",
-            "Access-Control-Allow-Origin": "*"
-        },
-        body : responseBody
-    }
+server.listen().then(({ url }) => {
+    console.log(`Bad Magic api ready at ${url}`);
+  });
 
-    return response;
+/*async (event, context) => {
 
+    //console.log(event.query);
+    graphql(schema, event.query ,root)
+    .then((response) => {
+        console.log(response)
+    });
+   
+    //return response;
 }
+*/

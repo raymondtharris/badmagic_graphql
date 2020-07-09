@@ -1,0 +1,25 @@
+{
+  "name": "badmagic_graphql",
+  "version": "1.0.0",
+  "description": "graphql lambda function",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raymondtharris/badmagic_graphql.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raymondtharris/badmagic_graphql/issues"
+  },
+  "homepage": "https://github.com/raymondtharris/badmagic_graphql#readme",
+  "dependencies": {
+    "apollo-server": "^2.15.1",
+    "apollo-server-lambda": "^2.15.1",
+    "aws-sdk": "^2.699.0"
+  }
+}
