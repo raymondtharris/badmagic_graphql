@@ -44,16 +44,15 @@ const resolvers = {
             let statusCode = 0;
 
             const params = {
-                TableName: "BadMagic_NewsletterUsers",
-                Limit:3
+                TableName: "BadMagic_NewsletterUsers"
             }
             try{
                 const data = await documentClient.scan(params).promise();
-                console.log(data.Items);
+                //console.log(data.Items);
                 //Map array to array of NewsletterUsers
 
-                responseBody = data.Items.map({Firstname, Lastname, Email})
-                console.log(responseBody)
+                responseBody = data.Items.map( item => {return {firstname : item.Firstname, lastname : item.Lastname, emailAddress : item.Email}})
+                //console.log(responseBody)
                 statusCode = 200;
             }   catch (err){
                 console.log(err)
