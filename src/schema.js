@@ -1,9 +1,15 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
+    type BadMagicResponse{
+        success: Boolean!
+        data: String
+        error: String
+    }
+
     type NewsletterUser {
         firstname: String!
-        lastname: String
+        lastname: String!
         emailAddress: String!
     }
 
@@ -13,7 +19,8 @@ const typeDefs = gql`
     }
 
     type Mutation { 
-        addNewsletterUser(emailAddress: String!, firstname: String!, lastname: String): String!
+        addNewsletterUser(emailAddress: String!, firstname: String!, lastname: String!): BadMagicResponse!
+        removeNewsletterUser(emailAddress: String!): BadMagicResponse! 
     }
 `;
 
