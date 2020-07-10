@@ -77,7 +77,7 @@ const resolvers = {
         addNewsletterUser : async (_, {emailAddress, firstname, lastname}, {}) => {
             //Check for emailAddress in DB 
             // if found return error else add to DB and return successful response
-            console.log(emailAddress);
+            //console.log(emailAddress);
             let responseBody = "";
             let responseStatus = false;
             let statusCode = 0;
@@ -98,7 +98,7 @@ const resolvers = {
             
             try{
                 const data = await documentClient.get(params[0]).promise();
-                console.log(data.Item);
+                //console.log(data.Item);
                 if (data.Item === undefined ){
                     console.log("No user found")
                     try{
@@ -144,8 +144,21 @@ const resolvers = {
             }
             try{
                 const data = await documentClient.get(params).promise();
-                //console.log(data.Item);
-                responseBody = data.Item;
+                console.log(data.Item);
+                if (data.Item === undefined){
+                    responseBody = "No user found"
+                    responseStatus = false;
+                } else{
+                    try {
+                        const resp = await documentClient.delete(params).promise();
+
+                        responseBody = "User has been successfully removed.";
+                        responseStatus = true;
+                    } catch(err) {
+                        console.log(err)
+                    }                  
+                }
+                
                 statusCode = 200;
             } catch(err){
                 console.log(err);
@@ -161,7 +174,7 @@ const resolvers = {
                 body: responseBody
             }
 
-            return {success: true, data:"User has been successfully removed."}
+            return {success: responseStatus, data: responseBody}
         }
     }
 };
