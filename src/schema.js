@@ -13,9 +13,34 @@ const typeDefs = gql`
         emailAddress: String!
     }
 
+    type Inventory {
+        id: String!
+        xsmall: Int!
+        small: Int!
+        medium: Int!
+        large: Int!
+        xlarge: Int!
+        xxlarge: Int!
+        xxxlarge: Int!
+        onesize: Int!
+    }
+
+    type Item {
+        id: String!
+        itemType: String!
+        name: String!
+        collection: String!
+        description: String!
+        price: Int!
+        resourceURL: String!
+        stock: Inventory!
+    }
+
     type Query {
         newsletterUsers: [NewsletterUser!]!
         newsletterUser (emailAddress: String!): NewsletterUser!
+        inventory (id: String): [Inventory!]!
+
     }
 
     type Mutation { 

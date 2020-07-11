@@ -70,6 +70,44 @@ const resolvers = {
             }
 
             return responseBody;
+        },
+        inventory: async (_,{id},{}) =>{
+            let responseBody = [];
+            console.log( id)
+            if( id === undefined){
+                const params = {
+                    TableName: "BadMagic_Inventory"
+                }
+                // need to figure how to have a null value work in DB
+
+                try{
+                    const data = await documentClient.scan(params).promise();
+                    responseBody = data.Items.map( item => {
+                        //console.log(data.Item.OneSize)
+                        return {id: item.ID, xsmall: item.XSmall, small: item.Small, medium: item.Medium, large: item.Large, xlarge: item.XLarge, xxlarge: item.XXLarge, xxxlarge: item.XXXLarge, onesize: item.OneSize}
+                    })
+                } catch(err){
+                    console.log(err)
+                }
+            } else{
+                const params = {
+                    TableName: "BadMagic_Inventory",
+                    Key: {
+                        ID: id
+                    }
+                }
+
+                try{
+                    const data = await documentClient.get(params).promise();
+                    //console.log(data.Item)
+                    responseBody = [{id : data.Item.ID, xsmall : data.Item.XSmall, small : data.Item.Small, medium : data.Item.Medium, large : data.Item.Large, xlarge : data.Item.XLarge, xxlarge : data.Item.XXLarge, xxxlarge : data.Item.XXXLarge, onesize : data.Item.OneSize}];
+                    //console.log(responseBody)
+                } catch(err){
+                    console.log(err)
+                }
+
+            }
+            return responseBody;
         }
         
     },
