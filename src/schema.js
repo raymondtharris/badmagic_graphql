@@ -15,14 +15,14 @@ const typeDefs = gql`
 
     type Inventory {
         id: String!
-        xsmall: Int!
-        small: Int!
-        medium: Int!
-        large: Int!
-        xlarge: Int!
-        xxlarge: Int!
-        xxxlarge: Int!
-        onesize: Int!
+        xsmall: Int
+        small: Int
+        medium: Int
+        large: Int
+        xlarge: Int
+        xxlarge: Int
+        xxxlarge: Int
+        onesize: Int
     }
 
     type Item {
@@ -33,13 +33,15 @@ const typeDefs = gql`
         description: String!
         price: Int!
         resourceURL: String!
-        stock: Inventory!
+        inventory: Inventory!
     }
 
     type Query {
         newsletterUsers: [NewsletterUser!]!
         newsletterUser (emailAddress: String!): NewsletterUser!
-        inventory (id: String): [Inventory!]!
+        inventory (id: String): [Inventory!]
+        item (id:String!): Item!
+        items (collection: String, itemType: String) : [Item!]!
 
     }
 

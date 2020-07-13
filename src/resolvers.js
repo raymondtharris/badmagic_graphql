@@ -108,8 +108,62 @@ const resolvers = {
 
             }
             return responseBody;
+        }, item: async (_, {id},{}) => {
+            let responseBody = [];
+            let statusCode = 0;
+
+            const params = {
+                TableName: "BadMagic_Item",
+                Key: {
+                    ID: id
+                }
+            }
+            try{
+                const data = await documentClient.get(params).promise();
+                //console.log(data.Items);
+                //Map array to array of NewsletterUsers
+
+                responseBody =  {id : data.Item.ID, itemType : data.Item.ItemType, name : data.Item.Name, collection: data.Item.Collection, description: data.Item.Description, price: data.Item.Price, resourceURL: data.Item.ResourceURL}
+                console.log(responseBody)
+                statusCode = 200;
+            }   catch (err){
+                console.log(err)
+                responseBody = `Unable to get Items`
+                statusCode = 403
+            }
+
+            const response = {
+                statusCode:statusCode,
+                headers:{
+                    "myHeader": "test",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body : responseBody
+            }
+
+            return responseBody;
         }
         
+    },
+    Item : {
+        inventory: async (parent, {}, {}) => {
+            console.log(parent.id)
+            const params = {
+                TableName: "BadMagic_Inventory",
+                Key: {
+                    ID: parent.id
+                }
+            }
+            try{
+                const data = await documentClient.get(params).promise();
+                //console.log(data.Item)
+                responseBody = {id : data.Item.ID, xsmall : data.Item.XSmall, small : data.Item.Small, medium : data.Item.Medium, large : data.Item.Large, xlarge : data.Item.XLarge, xxlarge : data.Item.XXLarge, xxxlarge : data.Item.XXXLarge, onesize : data.Item.OneSize};
+                //console.log(responseBody)
+            } catch(err){
+                console.log(err)
+            }
+            return responseBody
+        }
     },
     Mutation : {
         addNewsletterUser : async (_, {emailAddress, firstname, lastname}, {}) => {
