@@ -49,6 +49,7 @@ const typeDefs = gql`
         purchases: [Purchase!]!
         firstname: String!
         lastname: String!
+        emailAddress: String!
         totalPrice: Int!
         status: String!
         tracking: String!
@@ -61,9 +62,28 @@ const typeDefs = gql`
         emailAddress: String!
         supportDate: String!
         supportMessage: String!
-        supportOwner: String!
+        supportOwner: User!
         supportStatus: String!
         supportResolution: String! 
+    }
+
+    type User {
+        id: String!
+        credentials: Credential!
+        firstname: String!
+        lastname: String!
+        access: [Service!]
+
+    }
+    type Credential {
+        id: String!
+        username: String!
+        password: String!
+    }
+
+    type Service{
+        name: String!
+        operations:[String!]!
     }
 
 

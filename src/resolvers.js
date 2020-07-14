@@ -212,7 +212,7 @@ const resolvers = {
     },
     Purchase: {
         item: async (parent,{},{}) =>{
-            console.log(parent.id)
+            //console.log(parent.id)
             let responseBody = "";
             let statusCode = 0;
 
@@ -228,7 +228,7 @@ const resolvers = {
                 //Map array to array of NewsletterUsers
 
                 responseBody =  {id : data.Item.ID, itemType : data.Item.ItemType, name : data.Item.Name, collection: data.Item.Collection, description: data.Item.Description, price: data.Item.Price, resourceURL: data.Item.ResourceURL}
-                console.log(responseBody)
+                //console.log(responseBody)
                 statusCode = 200;
             }   catch (err){
                 console.log(err)
