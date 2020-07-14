@@ -36,12 +36,44 @@ const typeDefs = gql`
         inventory: Inventory!
     }
 
+    type Purchase {
+        id: String!
+        item: Item!
+        size: String!
+        quantity: Int!
+    }
+
+    type Order {
+        id:String!
+        submitDate: String!
+        purchases: [Purchase!]!
+        firstname: String!
+        lastname: String!
+        totalPrice: Int!
+        status: String!
+        tracking: String!
+    }
+
+
+    type Support {
+        id: String!
+        name: String!
+        emailAddress: String!
+        supportDate: String!
+        supportMessage: String!
+        supportOwner: String!
+        supportStatus: String!
+        supportResolution: String! 
+    }
+
+
     type Query {
         newsletterUsers: [NewsletterUser!]!
         newsletterUser (emailAddress: String!): NewsletterUser!
         inventory (id: String): [Inventory!]
         item (id:String!): Item!
         items (collection: String, itemType: String) : [Item!]!
+        order (id: String!): Order!
 
     }
 

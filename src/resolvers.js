@@ -109,7 +109,7 @@ const resolvers = {
             }
             return responseBody;
         }, item: async (_, {id},{}) => {
-            let responseBody = [];
+            let responseBody = "";
             let statusCode = 0;
 
             const params = {
@@ -142,6 +142,26 @@ const resolvers = {
             }
 
             return responseBody;
+        },
+        order: async (_,{id},{}) => {
+            //console.log(id)
+            let responseBody = "";
+            const params = {
+                TableName: "BadMagic_Orders",
+                Key: {
+                    ID: id
+                }
+            }
+            try {
+                const data = await documentClient.get(params).promise()
+                //console.log(data.Item)
+                responseBody = {id: data.Item.ID, submitDate: data.Item.SubmitDate, firstname: data.Item.Firstname, lastname: data.Item.Lastname, emailAddress: data.Item.EmailAddress, totalPrice: data.Item.TotalPrice, status: data.Item.Status, tracking: data.Item.Tracking}
+
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
+
         }
         
     },
@@ -163,6 +183,69 @@ const resolvers = {
                 console.log(err)
             }
             return responseBody
+        }
+    },
+    Order: {
+        purchases: async (parent, {},{}) =>{
+            //console.log(parent.id)
+            responseBody = []
+            const params = {
+                TableName: "BadMagic_Orders",
+                Key: {
+                    ID: parent.id
+                }
+            }
+            try {
+                const data = await documentClient.get(params).promise();
+                //console.log(data.Item.Purchases)
+                responseBody = data.Item.Purchases.map( item =>{
+                    //console.log(item)
+                    var temp = JSON.parse(item)
+                    //console.log(temp)
+                    return {id: temp.ID, size: temp.Size, quantity: temp.Quantity}
+                })
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
+        }
+    },
+    Purchase: {
+        item: async (parent,{},{}) =>{
+            console.log(parent.id)
+            let responseBody = "";
+            let statusCode = 0;
+
+            const params = {
+                TableName: "BadMagic_Item",
+                Key: {
+                    ID: parent.id
+                }
+            }
+            try{
+                const data = await documentClient.get(params).promise();
+                //console.log(data.Items);
+                //Map array to array of NewsletterUsers
+
+                responseBody =  {id : data.Item.ID, itemType : data.Item.ItemType, name : data.Item.Name, collection: data.Item.Collection, description: data.Item.Description, price: data.Item.Price, resourceURL: data.Item.ResourceURL}
+                console.log(responseBody)
+                statusCode = 200;
+            }   catch (err){
+                console.log(err)
+                responseBody = `Unable to get Items`
+                statusCode = 403
+            }
+
+            const response = {
+                statusCode:statusCode,
+                headers:{
+                    "myHeader": "test",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body : responseBody
+            }
+
+            return responseBody;
         }
     },
     Mutation : {
