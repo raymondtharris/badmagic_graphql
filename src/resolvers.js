@@ -142,6 +142,87 @@ const resolvers = {
             }
 
             return responseBody;
+        }, items: async (_,{collection, itemType},{}) => {
+            //console.log(collection)
+            //console.log(itemType)
+            let responseBody = []
+            if (collection === undefined && itemType ===undefined){
+                console.log("Get all items")
+                const params = {
+                    TableName: "BadMagic_Item",
+                }
+                try {
+                    const data = await documentClient.scan(params).promise()
+                    //console.log(data.Items)
+                    responseBody = data.Items.map( item => {
+                        return {id: item.ID, itemType: item.ItemType, name: item.Name, collection: item.Collection, description: item.Description, price: item.Price, resourceURL: item.ResourceURL}
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            } if (collection === undefined && itemType !== undefined) {
+                console.log("Get all of item type")
+                const params = {
+                    TableName: "BadMagic_Item",
+                    ExpressionAttributeValues: {
+                        ':t': itemType
+                    },
+                    FilterExpression: 'ItemType = :t'
+                }
+                try {
+                    const data = await documentClient.scan(params).promise()
+                    //console.log(data.Items)
+                    responseBody = data.Items.map( item => {
+                        return {id: item.ID, itemType: item.ItemType, name: item.Name, collection: item.Collection, description: item.Description, price: item.Price, resourceURL: item.ResourceURL}
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            } if (collection !== undefined && itemType === undefined){
+                console.log("Get all from collection ")
+                const params = {
+                    TableName: "BadMagic_Item",
+                    ExpressionAttributeNames: {
+                        '#Collection': "Collection"
+                    },
+                    ExpressionAttributeValues: {
+                        ':c': collection
+                    },
+                    FilterExpression: '#Collection = :c'
+                }
+                try {
+                    const data = await documentClient.scan(params).promise()
+                    //console.log(data.Items)
+                    responseBody = data.Items.map( item => {
+                        return {id: item.ID, itemType: item.ItemType, name: item.Name, collection: item.Collection, description: item.Description, price: item.Price, resourceURL: item.ResourceURL}
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            } if (collection !== undefined && itemType !== undefined) {
+                console.log("Get all of type in this collection")
+                const params = {
+                    TableName: "BadMagic_Item",
+                    ExpressionAttributeNames: {
+                        '#Collection': "Collection"
+                    },
+                    ExpressionAttributeValues: {
+                        ':c': collection,
+                        ':t': itemType
+                    },
+                    FilterExpression: '#Collection = :c and ItemType = :t'
+                }
+                try {
+                    const data = await documentClient.scan(params).promise()
+                    //console.log(data.Items)
+                    responseBody = data.Items.map( item => {
+                        return {id: item.ID, itemType: item.ItemType, name: item.Name, collection: item.Collection, description: item.Description, price: item.Price, resourceURL: item.ResourceURL}
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+            return responseBody
         },
         order: async (_,{id},{}) => {
             //console.log(id)

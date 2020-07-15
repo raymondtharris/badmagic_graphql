@@ -56,7 +56,7 @@ const typeDefs = gql`
     }
 
 
-    type Support {
+    type SupportCase {
         id: String!
         name: String!
         emailAddress: String!
@@ -94,7 +94,7 @@ const typeDefs = gql`
         item (id:String!): Item!
         items (collection: String, itemType: String) : [Item!]!
         order (id: String!): Order!
-
+        supportCase (id: String!): SupportCase!
     }
 
     type Mutation { 
