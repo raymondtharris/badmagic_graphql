@@ -243,6 +243,26 @@ const resolvers = {
             }
             return responseBody
 
+        },
+        supportCase: async (_,{id},{}) => {
+            console.log(id)
+            let responseBody = "";
+            const params = {
+                TableName: "BadMagic_SupportCases",
+                Key: {
+                    ID: id
+                }
+            }
+            try {
+                const data = await documentClient.get(params).promise()
+                //console.log(data.Item)
+                // Add rest of the attributes
+                responseBody = {id: data.Item.ID, name: data.Item.Name}
+
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
         }
         
     },
