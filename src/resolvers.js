@@ -257,7 +257,7 @@ const resolvers = {
                 const data = await documentClient.get(params).promise()
                 //console.log(data.Item)
                 // Add rest of the attributes
-                responseBody = {id: data.Item.ID, name: data.Item.Name}
+                responseBody = {id: data.Item.ID, name: data.Item.Name, emailAddress: data.Item.EmailAddress, supportDate: data.Item.SupportDate, supportMessage: data.Item.SupportMessage, supportStatus: data.Item.SupportStatus, supportResolution: data.Item.SupportResolution}
 
             } catch (err) {
                 console.log(err)
@@ -330,6 +330,59 @@ const resolvers = {
 
                 responseBody =  {id : data.Item.ID, itemType : data.Item.ItemType, name : data.Item.Name, collection: data.Item.Collection, description: data.Item.Description, price: data.Item.Price, resourceURL: data.Item.ResourceURL}
                 //console.log(responseBody)
+                statusCode = 200;
+            }   catch (err){
+                console.log(err)
+                responseBody = `Unable to get Items`
+                statusCode = 403
+            }
+
+            const response = {
+                statusCode:statusCode,
+                headers:{
+                    "myHeader": "test",
+                    "Access-Control-Allow-Origin": "*"
+                },
+                body : responseBody
+            }
+
+            return responseBody;
+        }
+    },
+    SupportCase: {
+        user: async (parent,{},{}) => {
+            console.log(parent.id)
+            let userID = ""
+            let responseBody = ""
+            const params = [{
+                TableName: "BadMagic_SupportCases",
+                Key: {
+                    ID: parent.id
+                }
+            },{
+                TableName: "BadMagic_Users",
+                Key: {
+                    ID: userID
+                }
+            }]
+            try{
+                const data = await documentClient.get(params[0]).promise();
+                //console.log(data.Items);
+                //Map array to array of NewsletterUsers
+
+                userID =  data.Item.UserID
+                //console.log(responseBody)
+                try {
+                    const data = await documentClient.get(params[1]).promise();
+                    responseBody = { id: data.Item.ID, firstname: data.Item.Firstname, access: data.Item.map(item => { 
+                        var jsonACL = JSON.parse(item)
+                        return { name: jsonACL.Name, operations: jsonACL.ACL }}
+                        )}
+
+                } catch (err) {
+                    console.log(err)
+                }
+
                 statusCode = 200;
             }   catch (err){
                 console.log(err)
