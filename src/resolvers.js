@@ -244,6 +244,9 @@ const resolvers = {
             return responseBody
 
         },
+        user: async (_, {id},{}) => {
+            console.log(id)
+        },
         supportCase: async (_,{id},{}) => {
             console.log(id)
             let responseBody = "";
@@ -350,31 +353,32 @@ const resolvers = {
         }
     },
     SupportCase: {
-        user: async (parent,{},{}) => {
+        supportOwner: async (parent,{},{}) => {
             console.log(parent.id)
             let userID = ""
             let responseBody = ""
-            const params = [{
+            const params = {
                 TableName: "BadMagic_SupportCases",
                 Key: {
                     ID: parent.id
                 }
-            },{
-                TableName: "BadMagic_Users",
-                Key: {
-                    ID: userID
-                }
-            }]
+            }
             try{
-                const data = await documentClient.get(params[0]).promise();
-                //console.log(data.Items);
+                const data = await documentClient.get(params).promise();
+                console.log(data.Item.SupportOwner);
                 //Map array to array of NewsletterUsers
 
-                userID =  data.Item.UserID
+                userID =  data.Item.SupportOwner
                 //console.log(responseBody)
+                const params2 = {
+                    TableName: "BadMagic_Users",
+                    Key: {
+                        ID: userID
+                    }
+                }
                 try {
-                    const data = await documentClient.get(params[1]).promise();
-                    responseBody = { id: data.Item.ID, firstname: data.Item.Firstname, access: data.Item.map(item => { 
+                    const data = await documentClient.get(params2).promise();
+                    responseBody = { id: data.Item.ID, firstname: data.Item.Firstname, access: data.Item.Access.map(item => { 
                         var jsonACL = JSON.parse(item)
                         return { name: jsonACL.Name, operations: jsonACL.ACL }}
                         )}

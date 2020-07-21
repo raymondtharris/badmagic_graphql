@@ -74,7 +74,8 @@ const typeDefs = gql`
         lastname: String!
         access: [Service!]
 
-    }
+    } 
+
     type Credential {
         id: String!
         username: String!
@@ -95,6 +96,7 @@ const typeDefs = gql`
         items (collection: String, itemType: String) : [Item!]!
         order (id: String!): Order!
         supportCase (id: String!): SupportCase!
+        user (id: String!): User!
     }
 
     type Mutation { 
