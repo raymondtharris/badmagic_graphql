@@ -247,8 +247,9 @@ const resolvers = {
         user: async (_, {id},{}) => {
             console.log(id)
         },
-        supportCase: async (_,{id},{}) => {
+        supportCase: async (_,{id,user},{}) => {
             console.log(id)
+            console.log(user)
             let responseBody = "";
             const params = {
                 TableName: "BadMagic_SupportCases",
