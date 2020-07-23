@@ -7,6 +7,10 @@ const typeDefs = gql`
         error: String
     }
 
+    type BadMagicSession{
+        id: String!
+    }
+
     type NewsletterUser {
         firstname: String!
         lastname: String!
