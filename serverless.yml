@@ -1,0 +1,19 @@
+# serverless.yml
+
+service: badmagic-graphql
+provider:
+  name: aws
+  runtime: nodejs12.x
+functions:
+  graphqlHandler:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: index.graphqlHandler
+    events:
+    - http:
+        path: graphqlHandler
+        method: post
+        cors: true
+    - http:
+        path: graphqlHandler
+        method: get
+        cors: true

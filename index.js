@@ -2,7 +2,7 @@
 const AWS = require('aws-sdk');
 AWS.config.update({region: "us-east-1"});
 
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-lambda');
 const typeDefs = require('./src/schema');
 //const { NewsletterUser } =  require('./src/datasources/newsletteruser');
 const resolvers = require('./src/resolvers');
@@ -46,12 +46,12 @@ var root = {
     }
 };
 */
-//exports.handler = server.createHandler();
-
+exports.graphqlHandler = server.createHandler();
+/*
 server.listen().then(({ url }) => {
     console.log(`Bad Magic api ready at ${url}`);
   });
-
+*/
 /*async (event, context) => {
 
     //console.log(event.query);

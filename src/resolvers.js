@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { ApolloServer, gql } = require('apollo-server-lambda');
 
 const AWS = require('aws-sdk');
 AWS.config.update({region: "us-east-1"});
