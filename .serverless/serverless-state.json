@@ -160,7 +160,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/badmagic-graphql/dev/1595484889080-2020-07-23T06:14:49.080Z/badmagic-graphql.zip"
+                "S3Key": "serverless/badmagic-graphql/dev/1596519272166-2020-08-04T05:34:32.166Z/badmagic-graphql.zip"
               },
               "FunctionName": "badmagic-graphql-dev-graphqlHandler",
               "Handler": "index.graphqlHandler",
@@ -178,14 +178,14 @@
               "GraphqlHandlerLogGroup"
             ]
           },
-          "GraphqlHandlerLambdaVersionnTZIMjyKfa5OsWuUBwEwPLkZDJeGDm8PzzaHMpiwo": {
+          "GraphqlHandlerLambdaVersionaVTV0TkfallLJZi5n1D74dqr6py8cHQ7jKzSxoIXI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GraphqlHandlerLambdaFunction"
               },
-              "CodeSha256": "ZKqAS0VCtSn3CZb1VwkZg1Z6ZtStRt3LcPdVSS4hq/Q="
+              "CodeSha256": "SKoz9ebTEhxrUu0jQ+/lMJwEEOmPu3PuZxjVDBhKcCc="
             }
           },
           "ApiGatewayRestApi": {
@@ -346,7 +346,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1595484879843": {
+          "ApiGatewayDeployment1596519263933": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -407,7 +407,7 @@
           "GraphqlHandlerLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GraphqlHandlerLambdaVersionnTZIMjyKfa5OsWuUBwEwPLkZDJeGDm8PzzaHMpiwo"
+              "Ref": "GraphqlHandlerLambdaVersionaVTV0TkfallLJZi5n1D74dqr6py8cHQ7jKzSxoIXI"
             }
           },
           "ServiceEndpoint": {
@@ -568,7 +568,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "GraphqlHandlerLambdaVersionnTZIMjyKfa5OsWuUBwEwPLkZDJeGDm8PzzaHMpiwo"
+        "versionLogicalId": "GraphqlHandlerLambdaVersionaVTV0TkfallLJZi5n1D74dqr6py8cHQ7jKzSxoIXI"
       }
     },
     "serviceFilename": "serverless.yml",
@@ -577,7 +577,7 @@
     "artifact": "/Users/Tim/Development/badmagic_graphql/.serverless/badmagic-graphql.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/badmagic-graphql/dev/1595484889080-2020-07-23T06:14:49.080Z",
+    "artifactDirectoryName": "serverless/badmagic-graphql/dev/1596519272166-2020-08-04T05:34:32.166Z",
     "artifact": "badmagic-graphql.zip"
   }
 }

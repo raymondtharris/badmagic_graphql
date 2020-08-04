@@ -8,7 +8,15 @@ const typeDefs = require('./src/schema');
 const resolvers = require('./src/resolvers');
 
 
-const server = new ApolloServer({ typeDefs,resolvers, 
+const server = new ApolloServer({ typeDefs,resolvers, context: ({ event, context }) => ({
+    headers: event.headers,
+    functionName: context.functionName,
+    event,
+    context,
+  }),
+  playground: {
+    endpoint: "/dev/graphqlHandler"
+  }
 });
 
 //const bmdb = new AWS.DynamoDB({ apiVersion:  '2012-08-10'});

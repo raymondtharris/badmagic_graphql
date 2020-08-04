@@ -244,6 +244,21 @@ const resolvers = {
             return responseBody
 
         },
+        orders: async (_,{},{}) => {
+            let responseBody = [];
+            const params = {
+                TableName: "BadMagic_Orders",
+            }
+            try {
+                const data = await documentClient.scan(params).promise()
+                responseBody = data.Items.map(item => {
+                    return {id: item.ID, submitDate: item.SubmitDate, firstname: item.Firstname, lastname: item.Lastname, emailAddress: item.EmailAddress, totalPrice: item.TotalPrice, status: item.Status, tracking: item.Tracking}
+                })
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
+        },
         user: async (_, {id},{}) => {
             console.log(id)
         },
@@ -266,9 +281,28 @@ const resolvers = {
                 console.log(err)
             }
             return responseBody
+        },
+        supportCases: async (_,{},{}) => {
+            let responseBody = [];
+                const params = {
+                    TableName: "BadMagic_SupportCases"
+                }
+    
+                try {
+                    const data = await documentClient.scan(params).promise()
+                    //console.log(data.Item)
+                    // Add rest of the attributes
+                    responseBody = data.Items.map(item => {
+                        return {id: item.ID, name: item.Name, emailAddress: item.EmailAddress, supportDate: item.SupportDate, supportMessage: item.SupportMessage, supportStatus: item.SupportStatus, supportResolution: item.SupportResolution}
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+                return responseBody
         }
         
     },
+    
     Item : {
         inventory: async (parent, {}, {}) => {
             console.log(parent.id)

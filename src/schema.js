@@ -99,7 +99,9 @@ const typeDefs = gql`
         item (id:String!): Item!
         items (collection: String, itemType: String) : [Item!]!
         order (id: String!): Order!
+        orders: [Order!]!
         supportCase (id: String!): SupportCase!
+        supportCases: [SupportCase!]!
         user (id: String!): User!
     }
 
