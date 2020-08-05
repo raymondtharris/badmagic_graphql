@@ -302,7 +302,27 @@ const resolvers = {
         }
         
     },
-    
+    User:{
+        credentials: async (parent,{},{}) => {
+            //console.log(parent.id);
+            let responseBody = "";
+            const params = {
+                TableName: "BadMagic_Credentials",
+                Key: {
+                    ID: parent.id
+                }
+            }
+
+            try {
+                const data = await documentClient.get(params).promise();
+                //console.log(data)
+                responseBody = {id: data.Item.ID, username: data.Item.Username, password: data.Item.Password}
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
+        }
+    },
     Item : {
         inventory: async (parent, {}, {}) => {
             console.log(parent.id)
