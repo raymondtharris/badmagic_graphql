@@ -7,6 +7,12 @@ const typeDefs = gql`
         error: String
     }
 
+    type BadMagicStripeClientSecret{
+        clientSecret: String!
+        statusCode: Int!
+        error: String!
+    }
+
     type BadMagicSession{
         id: String!
     }
@@ -27,6 +33,10 @@ const typeDefs = gql`
         xxlarge: Int
         xxxlarge: Int
         onesize: Int
+    }
+    type BadMagicCollection{
+        id: String!
+        name: String!
     }
 
     type Item {
@@ -96,6 +106,7 @@ const typeDefs = gql`
         newsletterUsers: [NewsletterUser!]!
         newsletterUser (emailAddress: String!): NewsletterUser!
         inventory (id: String): [Inventory!]
+        badMagicCollection(id: String): [BadMagicCollection!]!
         item (id:String!): Item!
         items (collection: String, itemType: String) : [Item!]!
         order (id: String!): Order!
@@ -103,6 +114,8 @@ const typeDefs = gql`
         supportCase (id: String!): SupportCase!
         supportCases: [SupportCase!]!
         user (id: String!): User!
+        users:[User!]!
+        badMagicStripeClientSecret(amount:Int!): BadMagicStripeClientSecret!
     }
 
     type Mutation { 

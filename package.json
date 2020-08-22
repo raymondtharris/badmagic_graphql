@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/raymondtharris/badmagic_graphql#readme",
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.9.0",
     "apollo-server-lambda": "^2.16.0",
-    "aws-sdk": "^2.699.0"
+    "aws-sdk": "^2.699.0",
+    "stripe": "^8.89.0"
   }
 }

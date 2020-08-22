@@ -4,6 +4,8 @@ const AWS = require('aws-sdk');
 AWS.config.update({region: "us-east-1"});
 const bmdb = new AWS.DynamoDB({ apiVersion:  '2012-08-10'});
 const documentClient = new AWS.DynamoDB.DocumentClient({region: "us-east-1"});
+const St = require('stripe');
+const stripe = St(process.env.SECRET_KEY);
 
 const resolvers = {
     Query : {
@@ -260,7 +262,37 @@ const resolvers = {
             return responseBody
         },
         user: async (_, {id},{}) => {
+            let responseBody = "";
             console.log(id)
+            const params = {
+                TableName: "BadMagic_Users",
+                Key: {
+                    ID: id
+                }
+            }
+            try {
+                const data = await documentClient.get(params).promise()
+                responseBody = {id: item.ID, firstname: item.Firstname, lastname: item.Lastname}
+                
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
+        },
+        users: async (_,{},{}) =>{
+            let responseBody = [];
+            const params = {
+                TableName: "BadMagic_Users"
+            }
+            try {
+                const data = await documentClient.scan(params).promise()
+                responseBody = data.Items.map(item => {
+                    return {id: item.ID, firstname: item.Firstname, lastname: item.Lastname}
+                })
+            } catch (err) {
+                console.log(err)
+            }
+            return responseBody
         },
         supportCase: async (_,{id},{}) => {
             console.log(id)
@@ -299,6 +331,22 @@ const resolvers = {
                     console.log(err)
                 }
                 return responseBody
+        },
+        badMagicStripeClientSecret: async(_,{amount},{}) =>{
+            let responseBody ="";
+
+            try {
+                const paymentIntent = await stripe.paymentIntents.create({
+                    amount,
+                    currency: "usd"
+                });
+                responseBody = {clientSecret: paymentIntent.client_secret, statusCode: 200, error: "Null"}
+            } catch (err) {
+                responseBody = {clientSecret: "Null", statusCode: 500, error: err.message}
+            }
+
+            return responseBody
+
         }
         
     },
