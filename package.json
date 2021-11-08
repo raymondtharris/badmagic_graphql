@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/raymondtharris/badmagic_graphql#readme",
   "dependencies": {
-    "apollo-server": "^2.15.1",
+    "apollo-server": "^2.25.3",
     "apollo-server-lambda": "^2.15.1",
     "aws-sdk": "^2.699.0"
   }
